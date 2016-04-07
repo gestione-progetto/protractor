@@ -1,34 +1,51 @@
 describe('weather homepage tables', function() {
     browser.ignoreSynchronization = true;
 
-
-    it('should have the title equal to "Sardegna - Weather station"', function() {
+    it('Should have the title equal to "Sardegna - Weather station"', function() {
         browser.get('http://localhost/~antonio/gestione-progetto/php-sqlite/');
-        waits(5000);
-
         expect(browser.getTitle()).toEqual('Sardegna - Weather station');
     });
 
-    it('should have two tables', function () {
+    it('Should have one tables', function () {
         var completedAmount = element.all(by.css('.table'));
-        expect(completedAmount.count()).toEqual(2);
+        expect(completedAmount.count()).toEqual(1);
     });
 
-});
+    it('Should login into weather station', function () {
+        browser.get('http://localhost/~antonio/gestione-progetto/php-sqlite/');
 
-describe('weather homepage tables', function() {
-    browser.ignoreSynchronization = true;
+        var password = element(by.id('password'));
+        var form = element(by.id('button'));
 
+        // code for cracking password
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13 , 14, 15, 16].forEach(function (number) {
+            password.clear();
+            password.sendKeys('antonio' + number);
+            form.click().then(function () {
+                var completedLogin = element.all(by.id('login-message'));
+                completedLogin.getText().then(function (value) {
+                    console.log(value[0], 'antonio' + number);
+                });
+                expect(true).toEqual(true);
+            });
+        });
+        expect(true).toEqual(true);
 
-    it('should enter into twitter', function () {
-        browser.get('http://localhost/~antonio/gestione-progetto/protractor/');
+        form.click().then(function () {
+            var completedLogin = element.all(by.id('login-message'));
+            completedLogin.getText().then(function (value) {
+                expect(value[0]).toEqual('Login succesful');
+            });
 
-        waits(5000);
-
-        var user = element(by.id('user'));
-
-        user.sendKeys('antonio@gmail.com');
+        });
     });
 
-});
+    it('should change the colour', function () {
+        var inputRange = element.all(by.name('temperature-low'));
 
+        inputRange.click();
+        inputRange.sendKeys('1');
+        // inputRange.click();
+        waits(1500);
+    });
+});
